@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0106)http://localhost:63342/pythonProject1/index.html?_ijt=1ik3fi1sc15lk28m14n3rajf57&_ij_reload=RELOAD_ON_SAVE -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="./index_files/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать в наш интернет-магазин!</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="http://localhost:63342/pythonProject1/index.html?_ijt=1ik3fi1sc15lk28m14n3rajf57&amp;_ij_reload=RELOAD_ON_SAVE#home">Главная</a></li>
+            <li><a href="http://localhost:63342/pythonProject1/index.html?_ijt=1ik3fi1sc15lk28m14n3rajf57&amp;_ij_reload=RELOAD_ON_SAVE#products">Товары</a></li>
+            <li><a href="http://localhost:63342/pythonProject1/index.html?_ijt=1ik3fi1sc15lk28m14n3rajf57&amp;_ij_reload=RELOAD_ON_SAVE#contact">Контакты</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="home">
+            <h2>Главная страница</h2>
+            <p>Добро пожаловать в наш интернет-магазин! Здесь вы найдете широкий ассортимент товаров.</p>
+        </section>
+        <section id="products">
+            <h2>Наши товары</h2>
+            <div class="product">
+                <h3>Товар 1</h3>
+                <p>Описание товара 1</p>
+                <button onclick="viewProduct(&#39;Товар 1&#39;)">Посмотреть</button>
+            </div>
+            <div class="product">
+                <h3>Товар 2</h3>
+                <p>Описание товара 2</p>
+                <button onclick="viewProduct(&#39;Товар 2&#39;)">Посмотреть</button>
+            </div>
+            <!-- Добавьте больше товаров по мере необходимости -->
+        </section>
+        <section id="contact">
+            <h2>Контакты</h2>
+            <p>Свяжитесь с нами по телефону или email.</p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 Интернет-магазин. Все права защищены.</p>
+    </footer>
+    <script>
+        function viewProduct(productName) {
+            alert('Просмотр информации о ' + productName);
+        }
+    </script>
+
+<script>
+(function() {
+  var ws = new WebSocket('ws://' + window.location.host + 
+             '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+             'referrer=' + encodeURIComponent(window.location.pathname));
+  ws.onmessage = function (msg) {
+      if (msg.data === 'reload') {
+          window.location.reload();
+      }
+      if (msg.data.startsWith('update-css ')) {
+          var messageId = msg.data.substring(11);
+          var links = document.getElementsByTagName('link');
+          for (var i = 0; i < links.length; i++) {
+              var link = links[i];
+              if (link.rel !== 'stylesheet') continue;
+              var clonedLink = link.cloneNode(true);
+              var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+              if (newHref !== link.href) {
+                clonedLink.href = newHref;
+              }
+              else {
+                var indexOfQuest = newHref.indexOf('?');
+                if (indexOfQuest >= 0) {
+                  // to support ?foo#hash 
+                  clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + 
+                                    newHref.substring(indexOfQuest + 1);
+                }
+                else {
+                  clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                }
+              }
+              link.replaceWith(clonedLink);
+          }
+      }
+  };
+})();
+</script></body></html>
